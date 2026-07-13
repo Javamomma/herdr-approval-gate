@@ -126,6 +126,7 @@ assert_grep "$OUT" "PLAN label=t15" "prints plan"
 assert_grep "$OUT" "echo hello gate" "embeds the task command"
 assert_grep "$OUT" "await-approval" "script gates via await-approval"
 assert_grep "$OUT" "APPROVAL-GATE: STARTED t15" "script announces itself"
+assert_grep "$OUT" "export GATE_CHECKER='echo \"GATE: PASS\"'" "resolved config is baked into the pane script"
 if [ ! -d "$T/state/runs" ]; then ok "dry-run writes no run script"; else bad "dry-run wrote state"; fi
 
 echo "16. run refuses without a checker or task"

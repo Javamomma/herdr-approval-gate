@@ -292,7 +292,11 @@ sanitize_label() {
 
 # --- run ---------------------------------------------------------------------
 compose_run_script() {
-  # Everything the pane needs is baked in: dirs, self path, task command.
+  # Everything the pane needs is baked in: dirs, self path, task command,
+  # and the RESOLVED gate config. Baking the config in makes each run a
+  # snapshot — editing the config file cannot change the semantics of a
+  # gate that is already pending, and env-only configuration reaches the
+  # pane too.
   local label="$1" task_cmd="$2" doc="$3"
   local qself qcfg qstate qtask qdoc
   qself="$(shquote "$SELF")"
@@ -306,6 +310,10 @@ compose_run_script() {
 set -u
 export GATE_CONFIG_DIR=${qcfg}
 export GATE_STATE_DIR=${qstate}
+export GATE_CHECKER=$(shquote "$GATE_CHECKER")
+export GATE_VERDICT_REGEX=$(shquote "$GATE_VERDICT_REGEX")
+export GATE_LOG=$(shquote "$GATE_LOG")
+export GATE_AUTO_RELEASE=$(shquote "$GATE_AUTO_RELEASE")
 SELF=${qself}
 TRANSCRIPT=${qstate}/transcripts/${label}.log
 mkdir -p "\$(dirname "\$TRANSCRIPT")"
