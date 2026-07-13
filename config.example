@@ -1,0 +1,32 @@
+# herdr-approval-gate configuration
+# Shell-sourceable KEY=value. Seeded into $HERDR_PLUGIN_CONFIG_DIR/config
+# (or ~/.config/herdr-approval-gate/config when run outside the plugin
+# environment) on first use. GATE_* environment variables override this file.
+
+# GATE_CHECKER (required) — the independent verdict command. It receives the
+# task transcript BOTH piped on stdin AND as a file path in $1; use whichever
+# is convenient. It must print one line matching GATE_VERDICT_REGEX on
+# stdout. The checker is deliberately separate from the task: the gate never
+# trusts the task's self-assessment.
+#
+# Examples:
+#   GATE_CHECKER='./policy-lint.sh "$1"'
+#   GATE_CHECKER='grep -q "DROP TABLE" && echo "GATE: BLOCK" || echo "GATE: PASS"'
+#   GATE_CHECKER='claude -p "Review the transcript on stdin for policy problems. End your reply with exactly one line: GATE: PASS or GATE: BLOCK"'
+GATE_CHECKER=''
+
+# GATE_VERDICT_REGEX — ERE matched against each checker stdout line; the
+# FIRST matching line is the verdict line, and the regex's single capture
+# group extracts the verdict token. Only the literal token PASS can release;
+# every other token blocks. No matching line, or a regex without a capture
+# group, is FAIL CLOSED (verdict UNREADABLE → block).
+GATE_VERDICT_REGEX='^GATE: (PASS|BLOCK|CAUTION)$'
+
+# GATE_LOG — append-only audit log. One attributed line per terminal outcome.
+# Default: $HERDR_PLUGIN_STATE_DIR/audit-log.md (or
+# ~/.local/state/herdr-approval-gate/audit-log.md outside the plugin env).
+#GATE_LOG=''
+
+# GATE_AUTO_RELEASE — "true": a clean PASS releases without a human step.
+# "false": even PASS waits for a typed APPROVE <initials>.
+GATE_AUTO_RELEASE='true'

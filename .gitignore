@@ -1,0 +1,11 @@
+# Runtime artifacts (live in $HERDR_PLUGIN_STATE_DIR, but just in case)
+transcripts/
+runs/
+*.log
+
+# Local config (lives in $HERDR_PLUGIN_CONFIG_DIR; never commit a real one)
+config
+
+# Editor / OS noise
+.DS_Store
+*.swp

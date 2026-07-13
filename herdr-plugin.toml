@@ -1,0 +1,29 @@
+id = "ajavaherian.approval-gate"
+name = "Approval Gate"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Human sign-off gate for agent actions: run a task in a dedicated pane, verdict-check its transcript with an independent checker, block until a human types APPROVE <initials> — every outcome appended to an audit log. Fail closed; never auto-executes the guarded action."
+platforms = ["linux", "macos"]
+
+# The primary interface is the CLI:
+#   bin/approval-gate.sh run "<task command>"        (gate a task)
+#   bin/approval-gate.sh approve <pane> <initials>   (release a blocked gate)
+#   bin/approval-gate.sh abort <pane> <initials>
+#   bin/approval-gate.sh status
+# `run` is CLI-first by design — it takes an arbitrary task command, which
+# the action palette can't supply. The actions below are conveniences.
+
+# List pending gate panes (output lands in `herdr plugin log list`).
+[[actions]]
+id = "status"
+title = "Approval Gate: list pending gates"
+contexts = ["workspace", "pane"]
+command = ["bash", "bin/approval-gate.sh", "status"]
+
+# Notify about pending gates and how to approve them. Never approves
+# anything itself — approval always requires typed initials.
+[[actions]]
+id = "approve-prompt"
+title = "Approval Gate: where to approve"
+contexts = ["workspace", "pane"]
+command = ["bash", "bin/approval-gate.sh", "nudge"]
