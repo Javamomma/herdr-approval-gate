@@ -58,7 +58,7 @@ git clone <this-repo> ~/projects/herdr-approval-gate
 herdr plugin link ~/projects/herdr-approval-gate
 
 # 3. Configure the checker (config is seeded on first run)
-"$(herdr plugin config-dir ajavaherian.approval-gate)"  # then edit config
+"$(herdr plugin config-dir javamomma.approval-gate)"  # then edit config
 #   GATE_CHECKER='./my-policy-check.sh "$1"'
 
 # 4. Gate something (from any shell inside your herdr session)
@@ -126,7 +126,7 @@ Config lives at `$HERDR_PLUGIN_CONFIG_DIR/config` (a shell-sourceable
 `KEY=value` file), seeded from [`config.example`](config.example) on first
 run. When invoked outside the plugin environment (the normal CLI case), the
 directory resolves in this order: `$GATE_CONFIG_DIR` env →
-`$HERDR_PLUGIN_CONFIG_DIR` → `herdr plugin config-dir ajavaherian.approval-gate`
+`$HERDR_PLUGIN_CONFIG_DIR` → `herdr plugin config-dir javamomma.approval-gate`
 → `~/.config/herdr-approval-gate`. `GATE_*` environment variables always
 override the file.
 

@@ -15,7 +15,7 @@
 # Targets bash 3.2+ (macOS stock bash) — no ${var@Q}, no ${var^^}.
 set -euo pipefail
 
-PLUGIN_ID="ajavaherian.approval-gate"
+PLUGIN_ID="javamomma.approval-gate"
 HERDR="${GATE_HERDR_BIN:-herdr}"
 
 # Absolute path to this script (embedded into the pane-side run script).
